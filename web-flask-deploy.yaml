@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chess-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chess
+  minReadySeconds: 60
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: chess
+    spec:
+      containers:
+      - name: chess-container
+        image: chesscorp/chess-club
+        ports:
+        - containerPort: 80
